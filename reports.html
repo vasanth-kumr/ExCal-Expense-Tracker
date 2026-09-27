@@ -1,0 +1,795 @@
+{% extends "base.html" %}
+
+{% block title %}Reports | ExCal{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>ExCal</h2>
+            <p>Expense Calculator</p>
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/dashboard">
+                    🏠 Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="/add-income">
+                    💰 Income
+                </a>
+            </li>
+
+            <li>
+                <a href="/add-expense">
+                    💸 Expense
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="/reports">
+                    📊 Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    🚪 Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content reports-page">
+
+        <!-- HEADER -->
+
+        <div class="reports-header">
+
+            <div>
+                <h1>Financial Reports</h1>
+                <p>Track and understand your spending this month.</p>
+            </div>
+
+            <div class="report-user">
+                👋 {{ username }}
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             THIS MONTH
+        ========================== -->
+
+        <div class="section-heading">
+
+            <div>
+                <h2>This Month</h2>
+                <p>Your financial overview for the current month.</p>
+            </div>
+
+        </div>
+
+
+        <div class="report-cards">
+
+            <!-- INCOME -->
+
+            <div class="report-card income-card">
+
+                <div class="report-card-top">
+
+                    <div class="report-icon">
+                        💰
+                    </div>
+
+                    <span class="report-label">
+                        Income
+                    </span>
+
+                </div>
+
+                <h3>
+                    ₹{{ month_income }}
+                </h3>
+
+                <p>
+                    Money received this month
+                </p>
+
+            </div>
+
+
+            <!-- EXPENSE -->
+
+            <div class="report-card expense-card">
+
+                <div class="report-card-top">
+
+                    <div class="report-icon">
+                        💸
+                    </div>
+
+                    <span class="report-label">
+                        Expenses
+                    </span>
+
+                </div>
+
+                <h3>
+                    ₹{{ month_expense }}
+                </h3>
+
+                <p>
+                    Money spent this month
+                </p>
+
+            </div>
+
+
+            <!-- BALANCE -->
+
+            <div class="report-card balance-card">
+
+                <div class="report-card-top">
+
+                    <div class="report-icon">
+                        🏦
+                    </div>
+
+                    <span class="report-label">
+                        Balance
+                    </span>
+
+                </div>
+
+                <h3>
+                    ₹{{ month_balance }}
+                </h3>
+
+                <p>
+                    Remaining balance this month
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             INCOME VS EXPENSE
+        ========================== -->
+
+        <div class="report-section">
+
+            <div class="section-heading chart-heading">
+
+                <div>
+                    <h2>Income vs Expense</h2>
+                    <p>Comparison of your current month's income and spending.</p>
+                </div>
+
+            </div>
+
+            <div class="chart-card large-chart">
+
+                <canvas id="incomeChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SPENDING ANALYSIS
+        ========================== -->
+
+        <div class="analysis-grid">
+
+
+            <!-- EXPENSE CATEGORY -->
+
+            <div class="chart-card category-card">
+
+                <div class="chart-title">
+
+                    <div>
+                        <h2>Expense Categories</h2>
+                        <p>Where your money is going.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="category-content">
+
+                    <div class="pie-wrapper">
+
+                        <canvas id="pieChart"></canvas>
+
+                    </div>
+
+
+                    <div class="category-list">
+
+                        {% if category_summary %}
+
+                            {% for label, amount in category_summary %}
+
+                            <div class="category-item">
+
+                                <div class="category-name">
+
+                                    <span class="category-dot"></span>
+
+                                    <span>
+                                        {{ label }}
+                                    </span>
+
+                                </div>
+
+                                <strong>
+                                    ₹{{ amount }}
+                                </strong>
+
+                            </div>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <div class="empty-category">
+                                No expenses recorded this month.
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DAILY EXPENSE -->
+
+            <div class="chart-card daily-card">
+
+                <div class="chart-title">
+
+                    <div>
+                        <h2>Daily Expenses</h2>
+                        <p>Your spending pattern throughout the month.</p>
+                    </div>
+
+                </div>
+
+                <div class="line-wrapper">
+
+                    <canvas id="lineChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             OVERALL SUMMARY
+        ========================== -->
+
+        <div class="section-heading overall-heading">
+
+            <div>
+                <h2>Overall Summary</h2>
+                <p>Your complete financial summary.</p>
+            </div>
+
+        </div>
+
+
+        <div class="overall-grid">
+
+            <div class="overall-item">
+
+                <span>
+                    Total Income
+                </span>
+
+                <strong class="overall-income">
+                    ₹{{ total_income }}
+                </strong>
+
+            </div>
+
+
+            <div class="overall-item">
+
+                <span>
+                    Total Expenses
+                </span>
+
+                <strong class="overall-expense">
+                    ₹{{ total_expense }}
+                </strong>
+
+            </div>
+
+
+            <div class="overall-item">
+
+                <span>
+                    Total Balance
+                </span>
+
+                <strong class="overall-balance">
+                    ₹{{ total_balance }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RECENT TRANSACTIONS
+        ========================== -->
+
+        <div class="transactions report-transactions">
+
+            <div class="transactions-header">
+
+                <div>
+                    <h2>Recent Transactions</h2>
+                    <p>Your latest income and expense activities.</p>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Description</th>
+
+                            <th>Amount</th>
+
+                            <th>Type</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% if transactions %}
+
+                            {% for t in transactions %}
+
+                            <tr>
+
+                                <td>
+                                    {{ t[0] }}
+                                </td>
+
+                                <td>
+                                    {{ t[1] }}
+                                </td>
+
+                                <td class="amount-cell">
+                                    ₹{{ t[2] }}
+                                </td>
+
+                                <td>
+
+                                    {% if t[3] == "Income" %}
+
+                                        <span class="transaction-badge income-badge">
+                                            Income
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="transaction-badge expense-badge">
+                                            Expense
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <tr>
+
+                                <td colspan="4" class="empty-table">
+                                    No transactions available.
+                                </td>
+
+                            </tr>
+
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================
+     CHART.JS
+========================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+const monthIncome = Number("{{ month_income|default(0) }}");
+
+const monthExpense = Number("{{ month_expense|default(0) }}");
+
+
+const categoryLabels =
+    JSON.parse('{{ (category_labels or []) | tojson | safe }}');
+
+const categoryAmounts =
+    JSON.parse('{{ (category_amounts or []) | tojson | safe }}');
+
+
+const dailyLabels =
+    JSON.parse('{{ (daily_labels or []) | tojson | safe }}');
+
+const dailyAmounts =
+    JSON.parse('{{ (daily_amounts or []) | tojson | safe }}');
+
+
+
+/* =========================
+   INCOME VS EXPENSE
+========================= */
+
+const incomeCanvas =
+    document.getElementById("incomeChart");
+
+if (incomeCanvas) {
+
+    new Chart(incomeCanvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Income",
+                "Expense"
+            ],
+
+            datasets: [{
+
+                data: [
+                    monthIncome,
+                    monthExpense
+                ],
+
+                backgroundColor: [
+                    "#2563eb",
+                    "#ef4444"
+                ],
+
+                borderRadius: 8,
+
+                borderSkipped: false,
+
+                maxBarThickness: 65
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+
+                    callbacks: {
+
+                        label: function(context) {
+
+                            return " ₹" +
+                                Number(context.raw)
+                                .toLocaleString("en-IN");
+
+                        }
+
+                    }
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    grid: {
+                        display: false
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        callback: function(value) {
+
+                            return "₹" +
+                                Number(value)
+                                .toLocaleString("en-IN");
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+
+
+/* =========================
+   EXPENSE PIE / DOUGHNUT
+========================= */
+
+const pieCanvas =
+    document.getElementById("pieChart");
+
+if (pieCanvas && categoryAmounts.length > 0) {
+
+    new Chart(pieCanvas, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: categoryLabels,
+
+            datasets: [{
+
+                data: categoryAmounts,
+
+                backgroundColor: [
+
+                    "#2563eb",
+                    "#22c55e",
+                    "#f97316",
+                    "#ef4444",
+                    "#8b5cf6",
+                    "#06b6d4",
+                    "#f59e0b",
+                    "#ec4899"
+
+                ],
+
+                borderWidth: 3,
+
+                borderColor: "#ffffff",
+
+                hoverOffset: 5
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            cutout: "58%",
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+
+                    callbacks: {
+
+                        label: function(context) {
+
+                            return " " +
+                                context.label +
+                                ": ₹" +
+                                Number(context.raw)
+                                .toLocaleString("en-IN");
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+
+
+/* =========================
+   DAILY EXPENSE
+========================= */
+
+const lineCanvas =
+    document.getElementById("lineChart");
+
+if (lineCanvas) {
+
+    new Chart(lineCanvas, {
+
+        type: "line",
+
+        data: {
+
+            labels: dailyLabels,
+
+            datasets: [{
+
+                label: "Daily Expense",
+
+                data: dailyAmounts,
+
+                borderColor: "#2563eb",
+
+                backgroundColor:
+                    "rgba(37, 99, 235, 0.10)",
+
+                fill: true,
+
+                tension: 0.35,
+
+                borderWidth: 2.5,
+
+                pointRadius: 3,
+
+                pointHoverRadius: 6,
+
+                pointBackgroundColor: "#2563eb"
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+
+                    callbacks: {
+
+                        label: function(context) {
+
+                            return " ₹" +
+                                Number(context.raw)
+                                .toLocaleString("en-IN");
+
+                        }
+
+                    }
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    grid: {
+                        display: false
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        callback: function(value) {
+
+                            return "₹" +
+                                Number(value)
+                                .toLocaleString("en-IN");
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+</script>
+
+{% endblock %}

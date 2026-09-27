@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="login-section">
+
+    <div class="login-container">
+
+        <div class="login-left">
+
+            <h1>Create Account 🚀</h1>
+
+            <p>
+                Join ExCal and start managing your finances smarter.
+            </p>
+
+            <form action="/register" method="POST">
+
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" name="fullname" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Create a password" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                </div>
+
+                <button class="login-btn">
+
+                    Create Account
+
+                </button>
+
+            </form>
+
+            <p class="register-link">
+
+                Already have an account?
+
+                <a href="/login">
+
+                    Login
+
+                </a>
+
+            </p>
+
+        </div>
+
+        <div class="login-right">
+
+            <img src="{{ url_for('static', filename='images/img1.webp') }}"
+                 alt="ExCal">
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Add Income | ExCal{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+        <h2>ExCal</h2>
+        <p>Expense Calculator</p>
+        </div>
+
+    </ul>
+
+        <li>
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Dashboard
+        </a>
+        </li>
+
+        <li class="active">
+        <a href="{{ url_for('add_income') }}">
+            💰 Income
+        </a>
+        </li>
+
+        <li>
+        <a href="{{ url_for('add_expense') }}">
+            💸 Expense
+        </a>
+        </li>
+
+        <li>
+        <a href="{{ url_for('reports') }}">
+            📊 Reports
+        </a>
+        </li>
+
+        <li>
+        <a href="/logout">
+            🚪 Logout
+        </a>
+        </li>
+
+    </ul>
+
+    </aside>
+
+    <main class="main-content">
+
+        <h1>Add Income</h1>
+
+        <form action="/add-income" method="POST">
+
+            <div class="mb-3">
+                <label>Income Source</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="source"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label>Amount</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    name="amount"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label>Date</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    name="income_date"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label>Notes</label>
+                <textarea
+                    class="form-control"
+                    name="notes"></textarea>
+            </div>
+
+            <button class="btn btn-primary">
+                Save Income
+            </button>
+
+        </form>
+
+    </main>
+
+</div>
+
+{% endblock %}

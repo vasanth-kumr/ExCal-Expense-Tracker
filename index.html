@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="container">
+
+        <div class="logo">
+            💻 ExCal
+        </div>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li><a href="/" class="active">Home</a></li>
+
+                <li><a href="#features">Features</a></li>
+
+                <li><a href="#pricing">Pricing</a></li>
+
+                <li><a href="#about">About</a></li>
+
+                <li><a href="/login">Login</a></li>
+
+                <li>
+
+                    <a href="/register" class="btn-start">
+
+                        Get Started
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <!-- LEFT -->
+
+        <div class="hero-left">
+
+            <span class="badge-custom">
+
+                🚀 Smart Expense Tracker
+
+            </span>
+
+            <h1>
+
+                Manage Your Money
+
+                <span>Smarter</span>
+
+            </h1>
+
+            <p>
+
+                ExCal helps you manage your income,
+                expenses, budgets and savings with a modern
+                dashboard and powerful analytics.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/register" class="btn-primary-custom">
+
+                    Get Started
+
+                </a>
+
+                <a href="#features" class="btn-outline-custom">
+
+                    Learn More
+
+                </a>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div class="stat">
+
+                    <h2>10K+</h2>
+
+                    <p>Users</p>
+
+                </div>
+
+                <div class="stat">
+
+                    <h2>₹50L+</h2>
+
+                    <p>Tracked</p>
+
+                </div>
+
+                <div class="stat">
+
+                    <h2>99%</h2>
+
+                    <p>Secure</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="hero-right">
+
+            <img src="{{ url_for('static', filename='images/img1.webp') }}" alt="ExCal">
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features" id="features">
+
+    <div class="container">
+
+        <h2 class="section-title">
+
+            Why Choose ExCal?
+
+        </h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="icon">💸</div>
+
+                <h3>Expense Tracking</h3>
+
+                <p>
+
+                    Record every expense with just one click.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon">📊</div>
+
+                <h3>Analytics</h3>
+
+                <p>
+
+                    Beautiful charts for better financial decisions.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon">🔒</div>
+
+                <h3>Secure</h3>
+
+                <p>
+
+                    Your financial information stays protected.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</section>
+
+<!-- ================= PRICING ================= -->
+
+<section class="pricing" id="pricing">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Simple & Easy
+        </h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="icon">🆓</div>
+
+                <h3>Free to Use</h3>
+
+                <p>
+                    Track your income and expenses without any subscription.
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon">📊</div>
+
+                <h3>Smart Reports</h3>
+
+                <p>
+                    View your financial activity through clear charts and summaries.
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon">💰</div>
+
+                <h3>Better Control</h3>
+
+                <p>
+                    Keep your daily financial records organized in one place.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about" id="about">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            About ExCal
+        </h2>
+
+        <p style="max-width: 750px; margin: 0 auto; text-align: center;">
+
+
+            ExCal is a web-based expense tracking application designed
+            to help users manage income, expenses and financial activity
+            through a simple dashboard and visual reports.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="container">
+
+        <p>
+
+            © 2026 ExCal • All Rights Reserved • Vinayagam Brothers  
+
+        </p>
+
+    </div>
+
+</footer>
+
+{% endblock %}
